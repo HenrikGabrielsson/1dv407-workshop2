@@ -1,0 +1,10 @@
+C#->":Program": Main()
+":Program"->+"r:Model::Repo": create
+"r:Model::Repo"-->-":Program": 
+
+":Program"->+"cv:ConsoleView::Console": create
+"cv:ConsoleView::Console"-->-":Program":
+
+loop
+":Program"->+"cv:ConsoleView::Console": Menu()
+end
