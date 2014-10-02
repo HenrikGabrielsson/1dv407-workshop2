@@ -13,9 +13,10 @@ namespace _1dv407_workshop2
         static void Main(string[] args)
         {
             Repository repo = new Repository();
-            ConsoleView cv = new ConsoleView(repo);
+            BoatRepository boatRepo = new BoatRepository();
+            ConsoleView cv = new ConsoleView(repo, boatRepo);
 
-            cv.Menu();
+            while(cv.Menu());
 
         }
     }

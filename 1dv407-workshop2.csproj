@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Boat.cs" />
+    <Compile Include="Model\BoatRepository.cs" />
     <Compile Include="Model\Repository.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Model\UserList.cs" />

@@ -8,5 +8,48 @@ namespace _1dv407_workshop2.Model
 {
     class Boat
     {
+
+
+        private BoatType type;
+        private int length;
+        private int owner;
+        private int uniqueId;
+
+        public BoatType Type { get; set; }
+        public int Length { get; set; }
+        public int Owner { get; set; }
+        public int UniqueId { get; set; }
+
+        public Boat(BoatType type, int length, int owner)
+        {
+            UniqueId = GenerateUniqueKey();
+            Type = type;
+            Length = length;
+            Owner = owner;
+        }
+
+        public Boat(BoatType type, int length, int owner, int uniqueId)
+        {
+            UniqueId = uniqueId;
+            Type = type;
+            Length = length;
+            Owner = owner;
+        }
+
+        public int GenerateUniqueKey()
+        {
+            return new Random().Next(1, 10000000);
+        }
+
     }
+    public enum BoatType
+    {
+        Segelbåt = 1,
+        Motorseglare = 2,
+        Motorbåt = 3,
+        KajakKanot = 4,
+        Övrig = 5
+    }
+
 }
+
