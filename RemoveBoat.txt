@@ -1,0 +1,15 @@
+":Program"->+"cv:ConsoleView::Console": Menu()
+
+"cv:ConsoleView::Console"->+"cv:ConsoleView::Console":GetMenuChoice()
+
+"cv:ConsoleView::Console"->+"cv:ConsoleView::Console": ContinueOnKeyPressed()
+
+"cv:ConsoleView::Console" ->+ "cv:ConsoleView::Console":RemoveBoat()
+
+"cv:ConsoleView::Console" ->+ "cv:ConsoleView::Console":ShowFullUserList()
+
+"cv:ConsoleView::Console"->+"cv:ConsoleView::Console":boats::Remove(boat)
+"cv:ConsoleView::Console" ->+ "repo:Model::BoatRepository":SaveAllToFile(boats)
+"repo:Model::BoatRepository" ->+ "repo:Model::BoatRepository":Load()
+"cv:ConsoleView::Console"->+"cv:ConsoleView::Console":LoadLists()
+

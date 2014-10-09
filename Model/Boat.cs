@@ -9,12 +9,6 @@ namespace _1dv407_workshop2.Model
     class Boat
     {
 
-
-        private BoatType type;
-        private int length;
-        private int owner;
-        private int uniqueId;
-
         public BoatType Type { get; set; }
         public int Length { get; set; }
         public int Owner { get; set; }

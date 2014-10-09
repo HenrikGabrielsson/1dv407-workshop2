@@ -1,19 +1,18 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace _1dv407_workshop2.Model
 {
-    class Repository
+    class UserRepository
     {
         private string path;
 
-        public Repository(string path)
-        {
-           Path = path;
+        public UserRepository() {
+           Path = "users.txt";
         }
 
         public string Path
@@ -32,40 +31,45 @@ namespace _1dv407_workshop2.Model
             }
         }
 
-        public void SaveToFile(Object obj)
+        public void SaveToFile(User user)
         {
-            List<Object> objects = Load();
+            List<User> users = Load();
 
-            if (obj.GetType() == typeof(Boat))
+            foreach (User listedUser in users)
             {
-                Boat typed = (Boat)obj;
-
-                using (StreamWriter writer = new StreamWriter(Path, true, System.Text.Encoding.UTF8))
+                while(listedUser.UniqueKey == user.UniqueKey)
                 {
-                    writer.WriteLine("{0};{1};{2};{3};", (int)typed.Type, typed.Length, typed.Owner, typed.UniqueId);
+                    user.UniqueKey = user.GenerateUniqueKey();
                 }
             }
-            else if(obj.GetType() == typeof(User)) {
-                User typed = (User)obj;
 
-                using (StreamWriter writer = new StreamWriter(Path, true, System.Text.Encoding.UTF8))
+            using (StreamWriter writer = new StreamWriter(Path, true, System.Text.Encoding.UTF8))
+            {
+                writer.WriteLine("{0};{1};{2};", user.UniqueKey, user.Name, user.PersonalNum);
+            }
+        }
+
+        public void SaveAllToFile(List<User> users)
+        {
+
+        
+            using (StreamWriter writer = new StreamWriter(Path, false, System.Text.Encoding.UTF8))
+            {
+                foreach (User user in users)
                 {
-                    writer.WriteLine("{0};{1};{2};", typed.UniqueKey, typed.Name, typed.PersonalNum);
+                    writer.WriteLine("{0};{1};{2};", user.UniqueKey, user.Name, user.PersonalNum);
                 }
+                
             }
-            else {
-                throw new ArgumentException();
-            }
-
-
-          
         }
 
 
 
-        public List<Object> Load()
+
+
+        public List<User> Load()
         {
-            List<Object> boatList = new List<Object>();
+            List<User> userList = new List<User>();
 
             // Encoding
             System.Text.Encoding enc = System.Text.Encoding.GetEncoding(1252);
@@ -82,26 +86,25 @@ namespace _1dv407_workshop2.Model
                     }
 
                     // Remove all the semicolons.
-                    string[] boats = line.Split(';');
+                    string[] users = line.Split(';');
 
-                    if (boats.Length != 5)
+                    if (users.Length != 4)
                     {
                         throw new ApplicationException("Wrong formatted file!");
                     }
 
-                    BoatType foo = (BoatType)int.Parse(boats[0]);
-
-                    Boat boat = new Boat(foo, int.Parse(boats[1]), int.Parse(boats[2]), int.Parse(boats[3]));
-
+                    User user = new User(int.Parse(users[0]), users[1], users[2]);
+    
                     // Add it to the list.
-                    boatList.Add(boat);
+                    userList.Add(user);
 
                 }
+                userList.Sort();
             }
 
 
             // ... and return the list.
-            return boatList;
+            return userList;
         }
     }
 }

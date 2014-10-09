@@ -1,0 +1,17 @@
+":Program"->+"cv:ConsoleView::Console": Menu()
+
+"cv:ConsoleView::Console"->+"cv:ConsoleView::Console":GetMenuChoice()
+
+"cv:ConsoleView::Console"->+"cv:ConsoleView::Console": ContinueOnKeyPressed()
+
+
+"cv:ConsoleView::Console" ->+ "cv:ConsoleView::Console":ShowUser()
+
+
+"cv:ConsoleView::Console" ->+ "cv:ConsoleView::Console":ShowUserList()
+
+
+"cv:ConsoleView::Console"->+"Model::User":Create
+"cv:ConsoleView::Console"->+"cv:ConsoleView::Console":ChooseUser()
+
+
