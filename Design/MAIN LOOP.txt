@@ -1,0 +1,27 @@
+C#->":Program": Main()
+
+
+":Program"->+"repo:Model::UserRepository": create
+"repo:Model::UserRepository"-->-":Program": 
+
+":Program"->+"BoatRepo:Model::BoatRepository": create
+"BoatRepo:Model::BoatRepository"-->-":Program": 
+
+
+
+":Program"->+"cv:ConsoleView::Console": create
+
+"cv:ConsoleView::Console"-->-":Program":
+
+
+loop until quit
+":Program"->+"cv:ConsoleView::Console": Menu()
+"cv:ConsoleView::Console"->+"cv:ConsoleView::Console":GetMenuChoice()
+
+
+
+ "cv:ConsoleView::Console"-->-"cv:ConsoleView::Console": 0-9
+
+"cv:ConsoleView::Console"->+"cv:ConsoleView::Console": ContinueOnKeyPressed()
+
+end

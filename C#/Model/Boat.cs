@@ -14,25 +14,12 @@ namespace _1dv407_workshop2.Model
         public int Owner { get; set; }
         public int UniqueId { get; set; }
 
-        public Boat(BoatType type, int length, int owner)
-        {
-            UniqueId = GenerateUniqueKey();
-            Type = type;
-            Length = length;
-            Owner = owner;
-        }
-
         public Boat(BoatType type, int length, int owner, int uniqueId)
         {
             UniqueId = uniqueId;
             Type = type;
             Length = length;
             Owner = owner;
-        }
-
-        public int GenerateUniqueKey()
-        {
-            return new Random().Next(1, 10000000);
         }
 
     }

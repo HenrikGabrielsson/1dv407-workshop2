@@ -14,4 +14,10 @@
 "cv:ConsoleView::Console"->+"Model::User":Create
 "cv:ConsoleView::Console"->+"cv:ConsoleView::Console":ChooseUser()
 
+"cv:ConsoleView::Console"->+"repo:Model::BoatRepository":Find(id)
+"repo:Model::BoatRepository"-->-"cv:ConsoleView::Console":
+
+"cv:ConsoleView::Console" ->+ "repo:Model::BoatRepository":Load()
+"repo:Model::BoatRepository"-->-"cv:ConsoleView::Console":
+
 

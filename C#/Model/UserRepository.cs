@@ -7,12 +7,16 @@ using System.Threading.Tasks;
 
 namespace _1dv407_workshop2.Model
 {
-    class UserRepository
+    class UserRepository : IRepository<User>
     {
         private string path;
+        private string idPath;
+        private List<User> users;
 
         public UserRepository() {
-           Path = "users.txt";
+            Path = "users.txt";
+            IdPath = "userId.txt";
+            this.users = Load();
         }
 
         public string Path
@@ -31,31 +35,70 @@ namespace _1dv407_workshop2.Model
             }
         }
 
-        public void SaveToFile(User user)
+        public string IdPath
         {
-            List<User> users = Load();
-
-            foreach (User listedUser in users)
+            get
             {
-                while(listedUser.UniqueKey == user.UniqueKey)
-                {
-                    user.UniqueKey = user.GenerateUniqueKey();
-                }
+                return this.idPath;
             }
-
-            using (StreamWriter writer = new StreamWriter(Path, true, System.Text.Encoding.UTF8))
+            set
             {
-                writer.WriteLine("{0};{1};{2};", user.UniqueKey, user.Name, user.PersonalNum);
+                if (value == null || String.IsNullOrWhiteSpace(value))
+                {
+                    throw new ApplicationException("Path is missing!");
+                }
+                this.idPath = value;
             }
         }
 
-        public void SaveAllToFile(List<User> users)
+        public User Find(int id)
         {
+            return this.users.Find(item => item.UniqueKey == id);
+        }
 
-        
+        public void Remove(User user)
+        {
+            this.users.Remove(user);
+            SaveAllToFile();
+        }
+
+        public void Update()
+        {
+            SaveAllToFile();
+        }
+
+        public void Add(User user)
+        {
+            this.users.Add(user);
+            SaveAllToFile();
+        }
+
+        public int GetUniqueId()
+        {
+            // Encoding
+            System.Text.Encoding enc = System.Text.Encoding.GetEncoding(1252);
+
+            int id;
+
+            using (StreamReader reader = new StreamReader(IdPath, enc))
+            {
+                int.TryParse(reader.ReadLine(), out id);
+            }
+
+            using (StreamWriter writer = new StreamWriter(IdPath, false, System.Text.Encoding.UTF8))
+            {
+                writer.WriteLine(++id);
+            }
+
+            return id;
+        }
+
+
+        public void SaveAllToFile()
+        {
             using (StreamWriter writer = new StreamWriter(Path, false, System.Text.Encoding.UTF8))
             {
-                foreach (User user in users)
+                foreach (User user in this.users)
                 {
                     writer.WriteLine("{0};{1};{2};", user.UniqueKey, user.Name, user.PersonalNum);
                 }

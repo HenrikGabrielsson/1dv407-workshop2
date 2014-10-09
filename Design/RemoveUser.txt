@@ -9,7 +9,9 @@
 "cv:ConsoleView::Console" ->+ "cv:ConsoleView::Console":ShowUserList()
 
 "cv:ConsoleView::Console"->+"cv:ConsoleView::Console":ChooseUser()
-"cv:ConsoleView::Console" ->+ "repo:Model::UserRepository":SaveAllToFile(users)
-"repo:Model::UserRepository" ->+ "repo:Model::UserRepository":Load()
-"cv:ConsoleView::Console"->+"cv:ConsoleView::Console":LoadLists()
 
+"cv:ConsoleView::Console"->+"repo:Model::UserRepository":Find(id)
+
+"cv:ConsoleView::Console"->+"repo:Model::UserRepository":Remove(user)
+
+"repo:Model::UserRepository" ->+ "repo:Model::UserRepository":SaveAllToFile()

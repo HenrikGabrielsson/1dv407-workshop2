@@ -6,9 +6,8 @@
 
 "cv:ConsoleView::Console" ->+ "cv:ConsoleView::Console":AddUser()
 
+"cv:ConsoleView::Console"->+ "repo:Model::UserRepository":GetUniqueId()
 "cv:ConsoleView::Console" ->+ "u:Model::User":create
-"u:Model::User"->+"u:Model::User":GenerateUniqueKey()
-"cv:ConsoleView::Console" ->+ "repo:Model::UserRepository":SaveToFile(u)
-"repo:Model::UserRepository" ->+ "repo:Model::UserRepository":Load()
-"cv:ConsoleView::Console"->+"cv:ConsoleView::Console":LoadLists()
+"cv:ConsoleView::Console" ->+ "repo:Model::UserRepository":Add(u)
+"repo:Model::UserRepository" ->+ "repo:Model::UserRepository":SaveAllToFile()
 

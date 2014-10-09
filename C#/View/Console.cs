@@ -12,21 +12,14 @@ namespace _1dv407_workshop2.View
         //private UserList list = new UserList();
         private UserRepository repo;
         private BoatRepository boatRepo;
-        private List<User> users;
-        private List<Boat> boats;
 
         public ConsoleView(UserRepository repo, BoatRepository boatRepo)
         {
+            //Repository<Boat> boats = new Repository<Boat>();
             this.repo = repo;
             this.boatRepo = boatRepo;
-            LoadLists();
         }
 
-        private void LoadLists()
-        {
-            this.users = repo.Load();
-            this.boats = boatRepo.Load();
-        }
 
         private void AddUser()
         {
@@ -39,17 +32,14 @@ namespace _1dv407_workshop2.View
 
             try
             {
-                // uniqueKey test. 
-                //User u = new User(9351946, name, personalNum);
-                User u = new User(name, personalNum);
-                this.repo.SaveToFile(u);
+                User u = new User(this.repo.GetUniqueId(), name, personalNum);
+                this.repo.Add(u);
             }
             catch (Exception)
             {
                 Console.WriteLine("FEL");
             }
 
-            LoadLists();
         }
 
         private void UpdateUser()
@@ -65,14 +55,19 @@ namespace _1dv407_workshop2.View
             Console.Write("Personnummer: ");
             string personalNum = Console.ReadLine();
 
-           
-            user.Name = name;
-            user.PersonalNum = personalNum;
 
-            this.repo.SaveAllToFile(this.users);
+            try
+            {
+                user.Name = name;
+                user.PersonalNum = personalNum;
 
+                this.repo.Update();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("FEL");
+            }
 
-            LoadLists();
         }
 
         private void RemoveUser()
@@ -81,11 +76,8 @@ namespace _1dv407_workshop2.View
 
             Console.WriteLine("Välj medlem att ta bort");
 
-            this.users.Remove(ChooseUser());
+            this.repo.Remove(ChooseUser());
 
-            this.repo.SaveAllToFile(this.users);
-
-            LoadLists();
         }
 
         private User ChooseUser()
@@ -94,57 +86,45 @@ namespace _1dv407_workshop2.View
 
             int.TryParse(Console.ReadLine(), out user);
 
-            return this.users.Find(item => item.UniqueKey == user);
+            return repo.Find(user);
         }
 
-        private void ShowUserList()
+        private void ShowUserList(bool full = false)
         {
 
-            foreach (User user in this.users)
+
+            foreach (User user in this.repo.Load())
             {
                 int i = 0;
-                foreach (Boat boat in this.boats)
+                foreach (Boat boat in this.boatRepo.Load())
                 {
                     if (boat.Owner == user.UniqueKey)
                     {
-                        i++;
+                        if (full)
+                        {
+                            Console.WriteLine("=========== BÅTAR SOM TILLHÖR: {0} ===========", user.Name);
+                            Console.WriteLine("Båtlängd: {0}", boat.Length);
+                            Console.WriteLine("Båttyp: {0}", boat.Type);
+                            Console.WriteLine("Båtägare: {0}", boat.Owner);
+                            Console.WriteLine("Båtnummer: {0}", boat.UniqueId);
+                            Console.WriteLine();
+                        }
+                        else
+                        {
+                            i++;
+                        }
                     }
                 }
-
-                Console.WriteLine("Namn: {0}", user.Name);
-                Console.WriteLine("Medlemsnummer: {0}", user.UniqueKey);
-                Console.WriteLine("Antal båtar: {0}", i);
-                Console.WriteLine();
-            }
-        }
-
-        private void ShowFullUserList()
-        {
-            foreach (User user in this.users)
-            {
 
                 Console.WriteLine("Namn: {0}", user.Name);
                 Console.WriteLine("Medlemsnummer: {0}", user.UniqueKey);
                 Console.WriteLine("Personnummer: {0}", user.PersonalNum);
+                Console.WriteLine("Antal båtar: {0}", i);
+                Console.WriteLine("======================");
                 Console.WriteLine();
-
-                foreach (Boat boat in this.boats)
-                {
-                    if (boat.Owner == user.UniqueKey)
-                    {
-                        Console.WriteLine("Båtlängd: {0}", boat.Length);
-                        Console.WriteLine("Båttyp: {0}", boat.Type);
-                        Console.WriteLine("Båtägare: {0}", boat.Owner);
-                        Console.WriteLine("Båtnummer: {0}", boat.UniqueId);
-                        Console.WriteLine();
-                    }
-                }
-
             }
-            
-            
-
         }
+
 
         private void ShowUser() {
             ShowUserList();
@@ -157,7 +137,7 @@ namespace _1dv407_workshop2.View
 
             Console.WriteLine("\nPersonen äger följande båtar:");
             //hämta medlemmens båtar och skriv ut info.
-            foreach (Boat boat in this.boats)
+            foreach (Boat boat in this.boatRepo.Load())
             {
                 if (boat.Owner == user.UniqueKey)
                 {
@@ -166,6 +146,15 @@ namespace _1dv407_workshop2.View
             }
 
 
+        }
+
+        private Boat ChooseBoat()
+        {
+            int boat;
+
+            int.TryParse(Console.ReadLine(), out boat);
+
+            return boatRepo.Find(boat);
         }
 
         private void AddBoat()
@@ -199,29 +188,26 @@ namespace _1dv407_workshop2.View
 
             BoatType foo = (BoatType)type;
 
-            Boat boat = new Boat(foo, length, user.UniqueKey);
+            try
+            {
+                Boat boat = new Boat(foo, length, user.UniqueKey, this.boatRepo.GetUniqueId());
 
-            this.boatRepo.SaveToFile(boat);
-
-            LoadLists();
+                this.boatRepo.Add(boat);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("FEL");
+            }
 
         }
 
         private void RemoveBoat()
         {
-            ShowFullUserList();
-
-            int removeBoatNumber;
+            ShowUserList(true);
 
             Console.WriteLine("Välj båt att ta bort");
 
-            int.TryParse(Console.ReadLine(), out removeBoatNumber);
-
-            this.boats.Remove(this.boats.Find(item => item.UniqueId == removeBoatNumber));
-
-            this.boatRepo.SaveAllToFile(this.boats);
-
-            LoadLists();
+            this.boatRepo.Remove(ChooseBoat());
         }
 
         private void UpdateBoat()
@@ -230,15 +216,11 @@ namespace _1dv407_workshop2.View
             int type;
             int length;
 
-            ShowFullUserList();
-
-            int updateBoatNumber;
+            ShowUserList(true);
 
             Console.WriteLine("Välj båt att ändra");
 
-            int.TryParse(Console.ReadLine(), out updateBoatNumber);
-
-            Boat boat = this.boats.Find(item => item.UniqueId == updateBoatNumber);
+            Boat boat = ChooseBoat();
 
             Console.WriteLine("Välj båttyp: ");
             Console.WriteLine();
@@ -258,12 +240,17 @@ namespace _1dv407_workshop2.View
 
             BoatType foo = (BoatType)type;
 
-            boat.Type = foo;
-            boat.Length = length;
+            try
+            {
+                boat.Type = foo;
+                boat.Length = length;
 
-            this.boatRepo.SaveAllToFile(this.boats);
-
-            LoadLists();
+                this.boatRepo.Update();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("FEL");
+            }
         }
 
 
@@ -292,7 +279,7 @@ namespace _1dv407_workshop2.View
                     ShowUserList();
                     break;
                 case 6:
-                    ShowFullUserList();
+                    ShowUserList(true);
                     break;
                 case 7:         
                     AddBoat();

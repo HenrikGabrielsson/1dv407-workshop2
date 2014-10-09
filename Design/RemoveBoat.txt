@@ -8,8 +8,11 @@
 
 "cv:ConsoleView::Console" ->+ "cv:ConsoleView::Console":ShowFullUserList()
 
-"cv:ConsoleView::Console"->+"cv:ConsoleView::Console":boats::Remove(boat)
-"cv:ConsoleView::Console" ->+ "repo:Model::BoatRepository":SaveAllToFile(boats)
-"repo:Model::BoatRepository" ->+ "repo:Model::BoatRepository":Load()
-"cv:ConsoleView::Console"->+"cv:ConsoleView::Console":LoadLists()
+"cv:ConsoleView::Console"->+"cv:ConsoleView::Console":ChooseBoat()
 
+"cv:ConsoleView::Console"->+"repo:Model::BoatRepository":Find(id)
+
+"cv:ConsoleView::Console"->+"repo:Model::BoatRepository":Remove(boat)
+
+
+"repo:Model::BoatRepository" ->+ "repo:Model::BoatRepository":SaveAllToFile()

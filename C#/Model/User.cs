@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _1dv407_workshop2.Model
 {
-    class User : IComparable, IComparable<User>
+    class User
     {
         private string name;
         private int uniqueKey;
@@ -18,17 +18,6 @@ namespace _1dv407_workshop2.Model
             UniqueKey = uniqueKey;
             Name = name;
             PersonalNum = personalNum;
-        }
-
-        public User(string name, string personalNum)
-        {
-            UniqueKey = GenerateUniqueKey();
-            Name = name;
-            PersonalNum = personalNum;
-        }
-
-        public int GenerateUniqueKey() {
-            return new Random().Next(1, 10000000);
         }
 
         public string Name
@@ -77,38 +66,5 @@ namespace _1dv407_workshop2.Model
         }
 
 
-        public int CompareTo(object obj)
-        {
-            // Check if object is null.
-            if (obj == null)
-            {
-                return 1;
-            }
-
-            // Type convert the reference obj from object to Member.
-            // Throw error if it can't be converted
-            User other = obj as User;
-            if (other == null)
-            {
-                throw new ArgumentException();
-            }
-
-            // The UserID has been compared to with the CompareTo method 
-            // that the String class implements.
-            return UniqueKey.CompareTo(other.UniqueKey);
-        }
-
-        public int CompareTo(User other)
-        {
-            // Check if other is null.
-            if (other == null)
-            {
-                return 1;
-            }
-
-            // The UserID has been compared to with the CompareTo method 
-            // that the String class implements.
-            return UniqueKey.CompareTo(other.UniqueKey);
-        }
     }
 }

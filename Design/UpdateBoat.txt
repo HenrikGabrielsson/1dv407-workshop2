@@ -1,0 +1,24 @@
+":Program"->+"cv:ConsoleView::Console": Menu()
+
+"cv:ConsoleView::Console"->+"cv:ConsoleView::Console":GetMenuChoice()
+
+"cv:ConsoleView::Console"->+"cv:ConsoleView::Console": ContinueOnKeyPressed()
+
+"cv:ConsoleView::Console" ->+ "cv:ConsoleView::Console":UpdateBoat()
+
+"cv:ConsoleView::Console" ->+ "cv:ConsoleView::Console":ShowFullUserList()
+
+"cv:ConsoleView::Console"->+"cv:ConsoleView::Console":ChooseBoat()
+
+"cv:ConsoleView::Console"->+"repo:Model::BoatRepository":Find(id)
+
+"cv:ConsoleView::Console"->+"Model::Enum.BoatType":GetValues()
+"Model::Enum.BoatType"-->-"cv:ConsoleView::Console":
+
+"cv:ConsoleView::Console"->+"repo:Model::BoatRepository":Update()
+
+"repo:Model::BoatRepository" ->+ "repo:Model::BoatRepository":SaveAllToFile()
+
+
+
+

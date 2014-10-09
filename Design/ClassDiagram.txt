@@ -1,0 +1,14 @@
+// Cool Class Diagram
+[View::ConsoleView]->*boatRepo[Model::BoatRepo]
+[View::ConsoleView]->*repo[Model::UserRepo]
+[View::ConsoleView]-.->[Model::Boat]
+[View::ConsoleView]-.->[Model::User]
+
+[Model::BoatRepo]->*boats[Model::Boat]
+[Model::UserRepo]->*users[Model::User]
+
+[View::ConsoleView]-.->[<<Enum>>Model::BoatType]
+[Model::Boat]-.->[<<Enum>>Model::BoatType]
+
+[Model::BoatRepo]-.->^[<<Interface>> Model::IRepository]
+[Model::UserRepo]-.->^[<<Interface>> Model::IRepository]

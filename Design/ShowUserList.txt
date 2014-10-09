@@ -1,0 +1,17 @@
+":Program"->+"cv:ConsoleView::Console": Menu()
+
+"cv:ConsoleView::Console"->+"cv:ConsoleView::Console":GetMenuChoice()
+
+"cv:ConsoleView::Console"->+"cv:ConsoleView::Console": ContinueOnKeyPressed()
+
+
+"cv:ConsoleView::Console" ->+ "cv:ConsoleView::Console":ShowUserList()
+
+"cv:ConsoleView::Console" ->+ "repo:Model::UserRepository":Load()
+
+"repo:Model::UserRepository"-->-"cv:ConsoleView::Console":
+
+"cv:ConsoleView::Console" ->+ "repo:Model::BoatRepository":Load()
+
+"repo:Model::BoatRepository"-->-"cv:ConsoleView::Console":
+

@@ -6,9 +6,8 @@
 
 "cv:ConsoleView::Console" ->+ "cv:ConsoleView::Console":AddBoat()
 
+"cv:ConsoleView::Console"->+ "repo:Model::BoatRepository":GetUniqueId()
 "cv:ConsoleView::Console" ->+ "b:Model::Boat":create
-"b:Model::Boat"->+"b:Model::Boat":GenerateUniqueKey()
-"cv:ConsoleView::Console" ->+ "repo:Model::BoatRepository":SaveToFile(b)
-"repo:Model::BoatRepository" ->+ "repo:Model::BoatRepository":Load()
-"cv:ConsoleView::Console"->+"cv:ConsoleView::Console":LoadLists()
+"cv:ConsoleView::Console" ->+ "repo:Model::BoatRepository":Add(b)
+"repo:Model::BoatRepository" ->+ "repo:Model::BoatRepository":SaveAllToFile()
 
