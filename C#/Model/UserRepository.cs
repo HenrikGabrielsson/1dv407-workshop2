@@ -142,7 +142,6 @@ namespace _1dv407_workshop2.Model
                     userList.Add(user);
 
                 }
-                userList.Sort();
             }
 
 
