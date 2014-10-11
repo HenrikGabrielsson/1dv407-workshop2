@@ -8,7 +8,6 @@ namespace _1dv407_workshop2.Model
 {
     class Boat
     {
-
         public BoatType Type { get; set; }
         public int Length { get; set; }
         public int Owner { get; set; }
@@ -23,6 +22,8 @@ namespace _1dv407_workshop2.Model
         }
 
     }
+
+    //All the possible boat types.
     public enum BoatType
     {
         Segelbåt = 1,

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace _1dv407_workshop2.Model
 {
+
+    //this is what a repository should look like.
     interface IRepository<T>
     {
         List<T> Load();

@@ -14,11 +14,15 @@ namespace _1dv407_workshop2.Model
         private List<User> users;
 
         public UserRepository() {
+            //paths to the files
             Path = "users.txt";
             IdPath = "userId.txt";
+
+            //load the list of users and keep in a list.
             this.users = Load();
         }
 
+        //properties.
         public string Path
         {
             get
@@ -51,28 +55,37 @@ namespace _1dv407_workshop2.Model
             }
         }
 
+        //find a specified user
+        //@param id = unique id of the user to be found
+        //@return User = the found user is returned.
         public User Find(int id)
         {
             return this.users.Find(item => item.UniqueKey == id);
         }
 
+        //remove specified user
+        //@param user = Unique id of the user to be removed.
         public void Remove(User user)
         {
             this.users.Remove(user);
             SaveAllToFile();
         }
 
+        //update file with new data.
         public void Update()
         {
             SaveAllToFile();
         }
 
+        //add user
+        //@param user = user to be added.
         public void Add(User user)
         {
             this.users.Add(user);
             SaveAllToFile();
         }
 
+        //get a unique id by checking the last given unique id. 
         public int GetUniqueId()
         {
             // Encoding
@@ -80,11 +93,13 @@ namespace _1dv407_workshop2.Model
 
             int id;
 
+            //read id
             using (StreamReader reader = new StreamReader(IdPath, enc))
             {
                 int.TryParse(reader.ReadLine(), out id);
             }
 
+            //update id in file
             using (StreamWriter writer = new StreamWriter(IdPath, false, System.Text.Encoding.UTF8))
             {
                 writer.WriteLine(++id);
@@ -93,7 +108,7 @@ namespace _1dv407_workshop2.Model
             return id;
         }
 
-
+        //save the list to file, after changes has been made.
         public void SaveAllToFile()
         {
             using (StreamWriter writer = new StreamWriter(Path, false, System.Text.Encoding.UTF8))
@@ -107,9 +122,8 @@ namespace _1dv407_workshop2.Model
         }
 
 
-
-
-
+        //Load the users in the file to a list. 
+        //@return List<User> = the list with the users.
         public List<User> Load()
         {
             List<User> userList = new List<User>();

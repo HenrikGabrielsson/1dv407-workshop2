@@ -12,7 +12,7 @@ namespace _1dv407_workshop2.Model
         private int uniqueKey;
         private string personalNum;
 
-
+        //constructor
         public User(int uniqueKey, string name, string personalNum)
         {
             UniqueKey = uniqueKey;
@@ -20,6 +20,7 @@ namespace _1dv407_workshop2.Model
             PersonalNum = personalNum;
         }
 
+        //properties
         public string Name
         {
             get

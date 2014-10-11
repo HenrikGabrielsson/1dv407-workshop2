@@ -9,27 +9,27 @@ namespace _1dv407_workshop2.View
 {
     class ConsoleView
     {
-        //private UserList list = new UserList();
+        
         private UserRepository repo;
         private BoatRepository boatRepo;
 
         public ConsoleView(UserRepository repo, BoatRepository boatRepo)
         {
-            //Repository<Boat> boats = new Repository<Boat>();
             this.repo = repo;
             this.boatRepo = boatRepo;
         }
 
-
+        //adds member
         private void AddUser()
         {
+            //get input from user
             Console.WriteLine("Ge mig namnet:");
-
             string name = Console.ReadLine();
 
             Console.WriteLine("Ge mig personnumret:");
             string personalNum = Console.ReadLine();
 
+            //create member and save
             try
             {
                 User u = new User(this.repo.GetUniqueId(), name, personalNum);
@@ -42,10 +42,14 @@ namespace _1dv407_workshop2.View
 
         }
 
+        //update user
         private void UpdateUser()
         {
+
+            //show list of users to choose from
             ShowUserList();
 
+            //get input from user
             Console.WriteLine("Välj medlem att ändra");
             User user = ChooseUser();
 
@@ -55,7 +59,7 @@ namespace _1dv407_workshop2.View
             Console.Write("Personnummer: ");
             string personalNum = Console.ReadLine();
 
-
+            //update member
             try
             {
                 user.Name = name;
@@ -69,7 +73,7 @@ namespace _1dv407_workshop2.View
             }
 
         }
-
+        //pick and remove a user
         private void RemoveUser()
         {
             ShowUserList();
@@ -80,6 +84,8 @@ namespace _1dv407_workshop2.View
 
         }
 
+        //a function that let's the user chose a user from the files and return it
+        //@return User = chosen user
         private User ChooseUser()
         {
             int user;
@@ -89,15 +95,18 @@ namespace _1dv407_workshop2.View
             return repo.Find(user);
         }
 
+        //displays a list of users
+        //@param full = the list is shown with all available data + info about their boats.
         private void ShowUserList(bool full = false)
         {
-
-
+            //go through all the members.
             foreach (User user in this.repo.Load())
             {
                 int i = 0;
+                //go through all the boats.
                 foreach (Boat boat in this.boatRepo.Load())
                 {
+
                     if (boat.Owner == user.UniqueKey)
                     {
                         if (full)
@@ -125,18 +134,19 @@ namespace _1dv407_workshop2.View
             }
         }
 
-
+        //pick and show one user
         private void ShowUser() {
             ShowUserList();
 
-            //välj person
+            //choose user
             Console.WriteLine("Medlem du vill visa:");
 
             User user = ChooseUser();
             Console.WriteLine("Namn: {0},\nMedlemsnummer:{1},\nPersonnummer: {2}", user.Name, user.UniqueKey, user.PersonalNum);
 
             Console.WriteLine("\nPersonen äger följande båtar:");
-            //hämta medlemmens båtar och skriv ut info.
+            
+            //get the members boats and print them too.
             foreach (Boat boat in this.boatRepo.Load())
             {
                 if (boat.Owner == user.UniqueKey)
@@ -148,46 +158,47 @@ namespace _1dv407_workshop2.View
 
         }
 
+        //Choose a boat and return 
+        //@return Boat = chosen boat
         private Boat ChooseBoat()
         {
             int boat;
-
             int.TryParse(Console.ReadLine(), out boat);
 
             return boatRepo.Find(boat);
         }
 
+        //add boat
         private void AddBoat()
         {
-
+            //show the list of users so one can chose an owner
             ShowUserList();
 
             int length;
             int type;
             int i = 0;
 
+            //get input
             Console.WriteLine("Välj medlem att lägga till båt till");
-
             User user = ChooseUser();
+            
             Console.WriteLine("Längd:");
-
             int.TryParse(Console.ReadLine(), out length);
 
             Console.WriteLine("Välj båttyp: ");
             Console.WriteLine();
-
             var values = Enum.GetValues(typeof(BoatType));
 
+            //print a list of all possible boattypes
             foreach (var value in values)
             {
                 i++;
                 Console.WriteLine("{0}: {1}", i, value);
             }
-
             int.TryParse(Console.ReadLine(), out type);
-
             BoatType foo = (BoatType)type;
 
+            //create a boat!
             try
             {
                 Boat boat = new Boat(foo, length, user.UniqueKey, this.boatRepo.GetUniqueId());
@@ -201,6 +212,8 @@ namespace _1dv407_workshop2.View
 
         }
 
+
+        //choose and remove a boat from file.
         private void RemoveBoat()
         {
             ShowUserList(true);
@@ -210,6 +223,8 @@ namespace _1dv407_workshop2.View
             this.boatRepo.Remove(ChooseBoat());
         }
 
+
+        //choose and update the info of a boat.
         private void UpdateBoat()
         {
             int i = 0;
@@ -218,31 +233,31 @@ namespace _1dv407_workshop2.View
 
             ShowUserList(true);
 
+            //get input 
             Console.WriteLine("Välj båt att ändra");
-
             Boat boat = ChooseBoat();
 
             Console.WriteLine("Välj båttyp: ");
             Console.WriteLine();
-
             var values = Enum.GetValues(typeof(BoatType));
 
+            //pritn boattypes
             foreach (var value in values)
             {
                 i++;
                 Console.WriteLine("{0}: {1}", i, value);
             }
-
             int.TryParse(Console.ReadLine(), out type);
 
             Console.Write("Längd: ");
             int.TryParse(Console.ReadLine(), out length);
 
-            BoatType foo = (BoatType)type;
+            BoatType boattype = (BoatType)type;
 
+            //update boat
             try
             {
-                boat.Type = foo;
+                boat.Type = boattype;
                 boat.Length = length;
 
                 this.boatRepo.Update();
@@ -253,7 +268,8 @@ namespace _1dv407_workshop2.View
             }
         }
 
-
+        //check what the user wants to do and then call a function that does just that.
+        //@return bool = true: user wants to quit. false: User wants to go again
         public bool Menu()
         {
             bool exit = false;
@@ -299,6 +315,8 @@ namespace _1dv407_workshop2.View
             return exit;
         }
 
+        //function that prints the menu and lets user pick an option from the list.
+        //@return int = chosen option from list.
         private int GetMenuChoice()
         {
             int index;
@@ -333,6 +351,7 @@ namespace _1dv407_workshop2.View
             } while (true);
         }
 
+        //stops the program until user presses a key.
         private void ContinueOnKeyPressed()
         {
             Console.ForegroundColor = ConsoleColor.White;

@@ -13,14 +13,18 @@ namespace _1dv407_workshop2.Model
         private string idPath;
         private List<Boat> boats;
 
-
+        
         public BoatRepository()
         {
+           //set file paths.
            Path = "boats.txt";
            IdPath = "boatId.txt";
+
+            //a list with the boats is read from file.
            this.boats = Load();
         }
 
+        
         public string Path
         {
             get
@@ -29,6 +33,7 @@ namespace _1dv407_workshop2.Model
             }
             set
             {
+                //throw exception if no file path is chosen.
                 if (value == null || String.IsNullOrWhiteSpace(value))
                 {
                     throw new ApplicationException("Path is missing!");
@@ -45,6 +50,7 @@ namespace _1dv407_workshop2.Model
             }
             set
             {
+                //throw exception if no file path is chosen.
                 if (value == null || String.IsNullOrWhiteSpace(value))
                 {
                     throw new ApplicationException("Path is missing!");
@@ -53,6 +59,7 @@ namespace _1dv407_workshop2.Model
             }
         }
 
+        //function that checks the last used Unique ID number, and returns the next in line.
         public int GetUniqueId()
         {
             // Encoding
@@ -60,11 +67,13 @@ namespace _1dv407_workshop2.Model
 
             int id;
 
+            //get number.
             using (StreamReader reader = new StreamReader(IdPath, enc))
             {
                 int.TryParse(reader.ReadLine(), out id);
             }
 
+            //update the number in the file.
             using (StreamWriter writer = new StreamWriter(IdPath, false, System.Text.Encoding.UTF8))
             {
                 writer.WriteLine(++id);
@@ -73,32 +82,38 @@ namespace _1dv407_workshop2.Model
             return id;
         }
 
-
+        //Find a specific boat
+        //@param id = the unique id of the boat.
         public Boat Find(int id)
         {
            return this.boats.Find(item => item.UniqueId == id);
         }
 
+        //remove a boat
+        //@param boat = the boat to be removed
         public void Remove(Boat boat)
         {
             this.boats.Remove(boat);
             SaveAllToFile();
         }
 
+        //update the list in the file.
         public void Update()
         {
             SaveAllToFile();
         }
 
+        //add a given boat to file.
+        //@param boat = the boat to be added.
         public void Add(Boat boat)
         {
             this.boats.Add(boat);
             SaveAllToFile();
         }
 
+        //save the list to file (probably after some changes has been made)
         public void SaveAllToFile()
         {
-
             using (StreamWriter writer = new StreamWriter(Path, false, System.Text.Encoding.UTF8))
             {
                 foreach (Boat boat in this.boats)
@@ -109,6 +124,8 @@ namespace _1dv407_workshop2.Model
             }
         }
 
+        //get the boats from file and add to list
+        //@return List<Boat> = all the boats.
         public List<Boat> Load()
         {
             List<Boat> boatList = new List<Boat>();
