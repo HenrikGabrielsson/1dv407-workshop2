@@ -80,7 +80,14 @@ namespace _1dv407_workshop2.View
 
             Console.WriteLine("Välj medlem att ta bort");
 
-            this.repo.Remove(ChooseUser());
+            try
+            {
+                this.repo.Remove(ChooseUser());
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("FEL");
+            }
 
         }
 
@@ -220,7 +227,14 @@ namespace _1dv407_workshop2.View
 
             Console.WriteLine("Välj båt att ta bort");
 
-            this.boatRepo.Remove(ChooseBoat());
+            try
+            {
+                this.boatRepo.Remove(ChooseBoat());
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("FEL");
+            }
         }
 
 

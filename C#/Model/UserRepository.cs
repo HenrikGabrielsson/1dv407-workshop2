@@ -67,7 +67,10 @@ namespace _1dv407_workshop2.Model
         //@param user = Unique id of the user to be removed.
         public void Remove(User user)
         {
-            this.users.Remove(user);
+            if (this.users.Remove(user) == false)
+            {
+                throw new Exception("FEL");
+            }
             SaveAllToFile();
         }
 

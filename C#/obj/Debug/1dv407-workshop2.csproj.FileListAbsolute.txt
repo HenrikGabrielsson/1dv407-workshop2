@@ -1,0 +1,6 @@
+C:\Users\hg222aa\Documents\GitHub\1dv407-workshop2\C#\bin\Debug\1dv407-workshop2.exe.config
+C:\Users\hg222aa\Documents\GitHub\1dv407-workshop2\C#\obj\Debug\1dv407-workshop2.csprojResolveAssemblyReference.cache
+C:\Users\hg222aa\Documents\GitHub\1dv407-workshop2\C#\bin\Debug\1dv407-workshop2.exe
+C:\Users\hg222aa\Documents\GitHub\1dv407-workshop2\C#\bin\Debug\1dv407-workshop2.pdb
+C:\Users\hg222aa\Documents\GitHub\1dv407-workshop2\C#\obj\Debug\1dv407-workshop2.exe
+C:\Users\hg222aa\Documents\GitHub\1dv407-workshop2\C#\obj\Debug\1dv407-workshop2.pdb

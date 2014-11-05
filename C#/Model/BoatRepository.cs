@@ -93,7 +93,10 @@ namespace _1dv407_workshop2.Model
         //@param boat = the boat to be removed
         public void Remove(Boat boat)
         {
-            this.boats.Remove(boat);
+            if (this.boats.Remove(boat) == false)
+            {
+                throw new Exception("FEL");
+            }
             SaveAllToFile();
         }
 
