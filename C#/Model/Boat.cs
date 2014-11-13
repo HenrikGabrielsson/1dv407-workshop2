@@ -10,10 +10,10 @@ namespace _1dv407_workshop2.Model
     {
         public BoatType Type { get; set; }
         public int Length { get; set; }
-        public int Owner { get; set; }
+        public User Owner { get; set; }
         public int UniqueId { get; set; }
 
-        public Boat(BoatType type, int length, int owner, int uniqueId)
+        public Boat(BoatType type, int length, User owner, int uniqueId)
         {
             UniqueId = uniqueId;
             Type = type;

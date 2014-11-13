@@ -12,6 +12,8 @@ namespace _1dv407_workshop2.Model
         private string path;
         private string idPath;
         private List<Boat> boats;
+        private UserRepository userRepo;
+        private List<User> users;
 
         
         public BoatRepository()
@@ -21,6 +23,8 @@ namespace _1dv407_workshop2.Model
            IdPath = "boatId.txt";
 
             //a list with the boats is read from file.
+           this.userRepo = new UserRepository();
+           this.users = this.userRepo.Load();
            this.boats = Load();
         }
 
@@ -121,7 +125,7 @@ namespace _1dv407_workshop2.Model
             {
                 foreach (Boat boat in this.boats)
                 {
-                    writer.WriteLine("{0};{1};{2};{3};", (int)boat.Type, boat.Length, boat.Owner, boat.UniqueId);
+                    writer.WriteLine("{0};{1};{2};{3};", (int)boat.Type, boat.Length, boat.Owner.UniqueKey, boat.UniqueId);
                 }
 
             }
@@ -131,6 +135,7 @@ namespace _1dv407_workshop2.Model
         //@return List<Boat> = all the boats.
         public List<Boat> Load()
         {
+
             List<Boat> boatList = new List<Boat>();
 
             // Encoding
@@ -157,7 +162,11 @@ namespace _1dv407_workshop2.Model
 
                     BoatType foo = (BoatType)int.Parse(boats[0]);
 
-                    Boat boat = new Boat(foo, int.Parse(boats[1]), int.Parse(boats[2]), int.Parse(boats[3]));
+
+                    int userKey;
+                    int.TryParse(boats[2], out userKey);
+                    User user = this.users.Find(item => item.UniqueKey == userKey);
+                    Boat boat = new Boat(foo, int.Parse(boats[1]), user, int.Parse(boats[3]));
 
                     // Add it to the list.
                     boatList.Add(boat);

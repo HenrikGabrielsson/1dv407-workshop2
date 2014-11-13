@@ -9,9 +9,9 @@ namespace _1dv407_workshop2.View
 {
     class ConsoleView
     {
-        
-        private UserRepository repo;
-        private BoatRepository boatRepo;
+
+        private IRepository<User> repo;
+        private IRepository<Boat> boatRepo;
 
         public ConsoleView(UserRepository repo, BoatRepository boatRepo)
         {
@@ -114,21 +114,18 @@ namespace _1dv407_workshop2.View
                 foreach (Boat boat in this.boatRepo.Load())
                 {
 
-                    if (boat.Owner == user.UniqueKey)
+                    if (boat.Owner.UniqueKey == user.UniqueKey)
                     {
                         if (full)
                         {
                             Console.WriteLine("=========== BÅTAR SOM TILLHÖR: {0} ===========", user.Name);
                             Console.WriteLine("Båtlängd: {0}", boat.Length);
                             Console.WriteLine("Båttyp: {0}", boat.Type);
-                            Console.WriteLine("Båtägare: {0}", boat.Owner);
+                            Console.WriteLine("Båtägare: {0}", boat.Owner.UniqueKey);
                             Console.WriteLine("Båtnummer: {0}", boat.UniqueId);
                             Console.WriteLine();
                         }
-                        else
-                        {
-                            i++;
-                        }
+                        i++;
                     }
                 }
 
@@ -156,7 +153,7 @@ namespace _1dv407_workshop2.View
             //get the members boats and print them too.
             foreach (Boat boat in this.boatRepo.Load())
             {
-                if (boat.Owner == user.UniqueKey)
+                if (boat.Owner.UniqueKey == user.UniqueKey)
                 {
                     Console.WriteLine("Id: {0}, \nTyp: {1}, \nLängd: {2} cm \n\n", boat.UniqueId, boat.Type, boat.Length);
                 }
@@ -208,7 +205,7 @@ namespace _1dv407_workshop2.View
             //create a boat!
             try
             {
-                Boat boat = new Boat(foo, length, user.UniqueKey, this.boatRepo.GetUniqueId());
+                Boat boat = new Boat(foo, length, user, this.boatRepo.GetUniqueId());
 
                 this.boatRepo.Add(boat);
             }
